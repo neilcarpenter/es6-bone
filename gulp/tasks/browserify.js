@@ -9,6 +9,7 @@
 var gulp         = require('gulp');
 var browserify   = require('browserify');
 var watchify     = require('watchify');
+var babelify = require('babelify');
 var uglify       = require('gulp-uglify');
 var source       = require('vinyl-source-stream');
 var buffer       = require('vinyl-buffer');
@@ -24,12 +25,14 @@ gulp.task('browserify', function() {
     // Required watchify args
     cache: {}, packageCache: {}, fullPaths: false,
     // Browserify Options
-    entries: ['./'+pkg.folders.src+'/coffee/Main.coffee'],
-    // Add file extensions to make optional in your requires
-    extensions: ['.coffee'],
+    entries: ['./'+pkg.folders.src+'/js/Source.js'],
     // Enable source maps!
     debug: global.isWatching
   });
+
+  bundler.transform(babelify.configure({
+    optional: ["es7.classProperties"]
+  }));
 
   var bundle = function() {
 

@@ -9,5 +9,7 @@
   To add a new task, simply add a new task file to gulp/tasks.
 */
 
+require('babel/register')({ extensions: ['.coffee', '.js'] });
+
 require('coffee-script').register();
 require('./gulp');
