@@ -4,7 +4,7 @@
 // import Facebook from './utils/Facebook';
 // import GooglePlus from './utils/GooglePlus';
 import Templates from './data/Templates';
-// import Locale from './data/Locale';
+import Locale from './data/Locale';
 // import Router from './router/Router';
 // import Nav from './router/Nav';
 // import AppData from './AppData';
@@ -48,7 +48,7 @@ class App {
 
     initObjects() {
         this.templates = new Templates("/data/templates.xml", this.objectComplete.bind(this));
-        // this.locale    = new Locale("/data/locales/strings.json", this.objectComplete);
+        this.locale    = new Locale("/data/locales/strings.json", this.objectComplete.bind(this));
         // this.analytics = new Analytics("/data/tracking.json", this.objectComplete);
         // this.appData   = new AppData(this.objectComplete);
 
@@ -94,4 +94,6 @@ class App {
 
 }
 
+
+window.App = App;
 export default App;
