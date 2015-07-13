@@ -44,20 +44,23 @@ class AppView extends AbstractView {
 
     }
 
-    // disableTouch: =>
+    disableTouch() {
 
-    //     @$window.on 'touchmove', @onTouchMove
-    //     return
+        this.$window.on('touchmove', this.onTouchMove.bind(this));
+        
+    }
 
-    // enableTouch: =>
+    enableTouch() {
 
-    //     @$window.off 'touchmove', @onTouchMove
-    //     return
+        this.$window.off('touchmove', this.onTouchMove.bind(this));
+        
+    }
 
-    // onTouchMove: ( e ) ->
+    onTouchMove( e ) {
 
-    //     e.preventDefault()
-    //     return
+        e.preventDefault();
+        
+    }
 
     render() {
 
@@ -103,7 +106,7 @@ class AppView extends AbstractView {
 
         this.trigger('start');
 
-        // this.__NAMESPACE__().router.start();
+        this.__NAMESPACE__().router.start();
 
         // this.preloader.hide();
         // this.updateMediaQueriesLog();
@@ -117,10 +120,15 @@ class AppView extends AbstractView {
 
     }
 
-    // updateMediaQueriesLog : =>
+    // updateMediaQueriesLog() {
 
-    //     if @header then @header.$el.find(".breakpoint").html "<div class='l'>CURRENT BREAKPOINT:</div><div class='b'>#{MediaQueries.getBreakpoint()}</div>"
-    //     return
+    //     if (this.header) {
+    //         this.header.$el
+    //             .find(".breakpoint")
+    //                 .html(`<div class='l'>CURRENT BREAKPOINT:</div><div class='b'>${MediaQueries.getBreakpoint()}</div>`);
+    //     }
+
+    // }
 
     getDims() {
 
