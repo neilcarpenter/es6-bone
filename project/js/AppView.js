@@ -83,8 +83,8 @@ class AppView extends AbstractView {
 
         this.onResize();
 
-        this.onResize = _.debounce(this.onResize, 300);
-        this.$window.on('resize orientationchange', this.onResize);
+        this.onResize = _.debounce(this.onResize.bind(this), 300);
+        this.$window.on('resize orientationchange', this.onResize.bind(this));
 
     }
 
