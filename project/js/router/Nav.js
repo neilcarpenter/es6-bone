@@ -1,28 +1,30 @@
 import AbstractView from '../view/AbstractView';
 import Router from './Router';
 
-class Nav extends AbstractView {
+const staticProps = {
+    EVENT_CHANGE_VIEW     : 'EVENT_CHANGE_VIEW',
+    EVENT_CHANGE_SUB_VIEW : 'EVENT_CHANGE_SUB_VIEW'
+};
 
-    static EVENT_CHANGE_VIEW     = 'EVENT_CHANGE_VIEW';
-    static EVENT_CHANGE_SUB_VIEW = 'EVENT_CHANGE_SUB_VIEW';
+const Nav = AbstractView.extend({
 
-    sections = {
+    sections : {
         HOME    : '',
         EXAMPLE : 'example'
-    };
+    },
 
-    current  = { area : null, sub : null };
-    previous = { area : null, sub : null };
+    current  : { area : null, sub : null },
+    previous : { area : null, sub : null },
 
-    constructor() {
+    constructor: function() {
 
-        super();
+        Nav.__super__.constructor.apply(this);
 
         this.__NAMESPACE__().router.on(Router.EVENT_HASH_CHANGED, this.changeView.bind(this));
 
-    }
+    },
 
-    getSection(section) {
+    getSection: function(section) {
 
         if (section === '') {
             return true;
@@ -39,13 +41,13 @@ class Nav extends AbstractView {
 
         return sectionUri;
 
-    }
+    },
 
-    changeView(area, sub, params) {
+    changeView: function(area, sub, params) {
 
-        // console.log("area",area);
-        // console.log("sub",sub);
-        // console.log("params",params);
+        console.log("area",area);
+        console.log("sub",sub);
+        console.log("params",params);
 
         this.previous = this.current;
         this.current  = { area : area, sub : sub };
@@ -54,7 +56,6 @@ class Nav extends AbstractView {
             this.trigger(Nav.EVENT_CHANGE_SUB_VIEW, this.current);
         } else {
             this.trigger(Nav.EVENT_CHANGE_VIEW, this.previous, this.current);
-            this.trigger(Nav.EVENT_CHANGE_SUB_VIEW, this.current);
         }
 
         if (this.__NAMESPACE__().appView.modalManager.isOpen()) {
@@ -63,7 +64,7 @@ class Nav extends AbstractView {
 
         this.setPageTitle(area, sub);
 
-    }
+    },
 
     setPageTitle(area, sub) {
 
@@ -75,6 +76,6 @@ class Nav extends AbstractView {
 
     }
 
-}
+}, staticProps);
 
 export default Nav;

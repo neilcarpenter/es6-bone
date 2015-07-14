@@ -1,12 +1,13 @@
 import AbstractView from './view/AbstractView';
-// Preloader    = require './view/base/Preloader'
-// Header       = require './view/base/Header'
-// Wrapper      = require './view/base/Wrapper'
-// Footer       = require './view/base/Footer'
-// ModalManager = require './view/modals/_ModalManager'
-// MediaQueries = require './utils/MediaQueries'
+import Preloader from './view/base/Preloader';
+import Header from './view/base/Header';
+import Wrapper from './view/base/Wrapper';
+import Footer from './view/base/Footer';
+import ModalManager from './view/modals/_ModalManager';
+import MediaQueries from './utils/MediaQueries';
 
-const classProps = {
+const AppView = AbstractView.extend({
+
     template : 'main',
 
     $window  : null,
@@ -30,107 +31,102 @@ const classProps = {
 
     MOBILE_WIDTH : 700,
     MOBILE       : 'mobile',
-    NON_MOBILE   : 'non_mobile'
-};
+    NON_MOBILE   : 'non_mobile',
 
-class AppView extends AbstractView {
+    constructor: function() {
 
-    constructor(props={}) {
-
-        super(_.defaults(props, classProps));
+        AppView.__super__.constructor.apply(this);
 
         this.$window = $(window);
         this.$body   = $('body').eq(0);
 
-    }
+    },
 
-    disableTouch() {
+    disableTouch: function() {
 
         this.$window.on('touchmove', this.onTouchMove.bind(this));
         
-    }
+    },
 
-    enableTouch() {
+    enableTouch: function() {
 
         this.$window.off('touchmove', this.onTouchMove.bind(this));
         
-    }
+    },
 
-    onTouchMove( e ) {
+    onTouchMove: function( e ) {
 
         e.preventDefault();
         
-    }
+    },
 
-    render() {
+    render: function() {
 
         this.bindEvents();
 
-        // this.preloader    = new Preloader();
-        // this.modalManager = new ModalManager();
+        this.preloader    = new Preloader();
+        this.modalManager = new ModalManager();
 
-        // this.header  = new Header();
-        // this.wrapper = new Wrapper();
-        // this.footer  = new Footer();
+        this.header  = new Header();
+        this.wrapper = new Wrapper();
+        this.footer  = new Footer();
 
-        // this
-        //     .addChild(this.header);
-        //     .addChild(this.wrapper);
-        //     .addChild(this.footer);
+        this
+            .addChild(this.header)
+            .addChild(this.wrapper)
+            .addChild(this.footer);
 
         this.onAllRendered();
 
-    }
+    },
 
-    bindEvents() {
+    bindEvents: function() {
 
         this.onResize();
 
         this.onResize = _.debounce(this.onResize.bind(this), 300);
         this.$window.on('resize orientationchange', this.onResize.bind(this));
 
-    }
+    },
 
-    onAllRendered() {
+    onAllRendered: function() {
 
         console.log("onAllRendered : =>");
 
         this.$body.prepend(this.$el);
 
-        this.$el.text('what?');
-
         this.begin();
-    }
+    },
 
-    begin() {
+    begin: function() {
 
         this.trigger('start');
 
         this.__NAMESPACE__().router.start();
 
-        // this.preloader.hide();
-        // this.updateMediaQueriesLog();
+        this.preloader.hide();
+        this.updateMediaQueriesLog();
 
-    }
+    },
 
-    onResize() {
+    onResize: function() {
 
         this.getDims();
-        // this.updateMediaQueriesLog();
+        this.updateMediaQueriesLog();
 
-    }
+    },
 
-    // updateMediaQueriesLog() {
+    updateMediaQueriesLog: function() {
 
-    //     if (this.header) {
-    //         this.header.$el
-    //             .find(".breakpoint")
-    //                 .html(`<div class='l'>CURRENT BREAKPOINT:</div><div class='b'>${MediaQueries.getBreakpoint()}</div>`);
-    //     }
+        if (this.header) {
+            this.header.$el
+                .find(".breakpoint")
+                    .html(`<div class='l'>CURRENT BREAKPOINT:</div><div class='b'>${MediaQueries.getBreakpoint()}</div>`);
+        }
 
-    // }
+    },
 
-    getDims() {
+    getDims: function() {
 
         const w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         const h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -144,9 +140,9 @@ class AppView extends AbstractView {
 
         this.trigger(this.EVENT_UPDATE_DIMENSIONS, this.dims);
 
-    }
+    },
 
-    linkManager(e) {
+    linkManager: function(e) {
 
         const href = $(e.currentTarget).attr('href');
 
@@ -156,9 +152,9 @@ class AppView extends AbstractView {
 
         this.navigateToUrl(href, e);
 
-    }
+    },
 
-    navigateToUrl( href, e = null ) {
+    navigateToUrl: function( href, e = null ) {
 
         const route   = href.match(this.__NAMESPACE__().BASE_PATH) ? href.split(this.__NAMESPACE__().BASE_PATH)[1] : href;
         const section = route.indexOf('/') === 0 ? route.split('/')[1] : route;
@@ -170,9 +166,9 @@ class AppView extends AbstractView {
             this.handleExternalLink(href);
         }
 
-    }
+    },
 
-    handleExternalLink(data) {
+    handleExternalLink: function(data) {
 
         /*
 
@@ -181,6 +177,7 @@ class AppView extends AbstractView {
         */
 
     }
-}
+
+});
 
 export default AppView;

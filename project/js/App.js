@@ -37,7 +37,7 @@ class App {
     objectComplete() {
         this.objReady++;
 
-        if (this.objReady >= 1) {
+        if (this.objReady >= 4) {
             this.initApp();
         }
     }

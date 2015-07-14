@@ -1,20 +1,12 @@
-const classProps = {
+const AbstractView = Backbone.View.extend({
+
 	el           : null,
 	id           : null,
 	children     : null,
 	template     : null,
-	templateVars : null
-};
+	templateVars : null,
 
-class AbstractView extends Backbone.View {
-
-	constructor(props={}) {
-
-		super(_.defaults(props, classProps));
-
-	}
-	
-	initialize() {
+	initialize: function() {
 		
 		this.children = [];
 
@@ -38,15 +30,15 @@ class AbstractView extends Backbone.View {
 
 		this.paused = false;
 
-	}
+	},
 
-	init() {}
+	init: function() {},
 
-	update() {}
+	update: function() {},
 
-	render() {}
+	render: function() {},
 
-	addChild(child, prepend = false) {
+	addChild: function(child, prepend = false) {
 
 		if (child.el) {
 			this.children.push(child);
@@ -62,17 +54,21 @@ class AbstractView extends Backbone.View {
 		}
 
 		return this;
-	}
+	},
 
-	// replace : (dom, child) =>
+	replace: function(dom, child) {
 
-	// 	@children.push child if child.el
-	// 	c = if child.el then child.$el else child
-	// 	@$el.children(dom).replaceWith(c)
+		if (child.el) {
+			this.children.push(child);
+		}
 
-	// 	null
+		const c = child.el ? child.$el : child;
 
-	remove(child) {
+		this.$el.children(dom).replaceWith(c);
+
+	},
+
+	remove: function(child) {
 
 		if (!child) {
 			return;
@@ -89,9 +85,9 @@ class AbstractView extends Backbone.View {
 
 		c.remove();
 
-	}
+	},
 
-	onResize(event) {
+	onResize: function(event) {
 
 		this.children.forEach( (child) => {
 			if (child.onResize) {
@@ -99,95 +95,121 @@ class AbstractView extends Backbone.View {
 			}
 		});
 
-	}
+	},
 
-	// mouseEnabled : ( enabled ) =>
+	mouseEnabled: function( enabled ) {
 
-	// 	@$el.css
-	// 		"pointer-events": if enabled then "auto" else "none"
+		this.$el.css({
+			"pointer-events": enabled ? "auto" : "none"
+		});
 
-	// 	null
+	},
 
-	// CSSTranslate : (x, y, value='%', scale) =>
+	CSSTranslate: function(x, y, value='%', scale) {
 
-	// 	if Modernizr.csstransforms3d
-	// 		str = "translate3d(#{x+value}, #{y+value}, 0)"
-	// 	else
-	// 		str = "translate(#{x+value}, #{y+value})"
+		let str;
 
-	// 	if scale then str = "#{str} scale(#{scale})"
+		if (Modernizr.csstransforms3d) {
+			str = `translate3d(${x+value}, ${y+value}, 0)`;
+		} else {
+			str = `translate(${x+value}, ${y+value})`
+		}
 
-	// 	str
+		if (scale) {
+			str = `${str} scale(${scale})`
+		}
 
-	// unMuteAll : =>
+		return str;
 
-	// 	for child in @children
+	},
 
-	// 		child.unMute?()
+	unMuteAll: function() {
 
-	// 		if child.children.length
+		this.children.forEach( (child) => {
 
-	// 			child.unMuteAll()
+			if (child.unMute) {
+				child.unMute();
+			}
 
-	// 	null
+			if (child.children.length) {
+				child.unMuteAll();
+			}
 
-	// muteAll : =>
+		});
 
-	// 	for child in @children
+	},
 
-	// 		child.mute?()
+	muteAll: function() {
 
-	// 		if child.children.length
+		this.children.forEach( (child) => {
 
-	// 			child.muteAll()
+			if (child.mute) {
+				child.mute();
+			}
 
-	// 	null
+			if (child.children.length) {
+				child.muteAll();
+			}
 
-	// removeAllChildren: =>
+		});
 
-	// 	@remove child for child in @children
+	},
 
-	// 	null
+	removeAllChildren: function() {
 
-	// triggerChildren : (msg, children=@children) =>
+		this.children.forEach( (child) => {
+			this.remove(child);
+		});
 
-	// 	for child, i in children
+	},
 
-	// 		child.trigger msg
+	triggerChildren: function(msg, children) {
 
-	// 		if child.children.length
+		children = children || this.children;
 
-	// 			@triggerChildren msg, child.children
+		children.forEach( (child, i) => {
 
-	// 	null
+			child.trigger(msg);
 
-	// callChildren : (method, params, children=@children) =>
+			if (child.children.length) {
+				this.triggerChildren(msg, child.children);
+			}
 
-	// 	for child, i in children
+		});
 
-	// 		child[method]? params
+	},
 
-	// 		if child.children.length
+	callChildren: function(method, params, children) {
 
-	// 			@callChildren method, params, child.children
+		children = children || this.children;
 
-	// 	null
+		children.forEach( (child, i) => {
 
-	// callChildrenAndSelf : (method, params, children=@children) =>
+			if (child[method]) {
+				child[method](params);
+			}
 
-	// 	@[method]? params
+			if (child.children.length) {
+				this.callChildren(method, params, child.children);
+			}
 
-	// 	for child, i in children
+		});
 
-	// 		child[method]? params
+	},
 
-	// 		if child.children.length
+	callChildrenAndSelf: function(method, params, children) {
 
-	// 			@callChildren method, params, child.children
+		children = children || this.children;
 
-	// 	null
+		if (this[method]) {
+			this[method](params);
+		}
 
-	supplantString(str, vals) {
+		this.callChildren(method, params, children);
+
+	},
+
+	supplantString: function(str, vals) {
 
 		return str.replace(/{{ ([^{}]*) }}/g, (a, b) => {
 			const r = vals[b];
@@ -198,15 +220,15 @@ class AbstractView extends Backbone.View {
 			}
 		});
 
-	}
+	},
 
-	dispose() {
+	dispose: function() {
 
 		/*
 		override on per view basis - unbind event handlers etc
 		*/
 
-	}
+	},
 
 	__NAMESPACE__() {
 
@@ -214,8 +236,6 @@ class AbstractView extends Backbone.View {
 
 	}
 
-}
-
-// AbstractView.prototype.className = 'what';
+});
 
 export default AbstractView;

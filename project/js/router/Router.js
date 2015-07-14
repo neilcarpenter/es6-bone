@@ -1,28 +1,30 @@
-class Router extends Backbone.Router {
+const staticProps = {
+    EVENT_HASH_CHANGED: 'EVENT_HASH_CHANGED'
+}
 
-    static EVENT_HASH_CHANGED = 'EVENT_HASH_CHANGED';
+const Router = Backbone.Router.extend({
 
-    FIRST_ROUTE = true;
+    FIRST_ROUTE: true,
 
-    routes = {
+    routes : {
         '(/)(:area)(/:sub)(/)' : 'hashChanged',
         '*actions'             : 'navigateTo'
-    };
+    },
 
-    area   = null;
-    sub    = null;
-    params = null;
+    area   : null,
+    sub    : null,
+    params : null,
 
-    start() {
+    start: function() {
 
         Backbone.history.start({
             pushState : true,
             root      : '/'
         });
 
-    }
+    },
 
-    hashChanged(area=null, sub=null) {
+    hashChanged: function(area=null, sub=null) {
 
         console.log(`>> EVENT_HASH_CHANGED @area = ${this.area}, @sub = ${this.sub} <<`);
 
@@ -39,9 +41,9 @@ class Router extends Backbone.Router {
 
         this.trigger(Router.EVENT_HASH_CHANGED, this.area, this.sub, this.params);
 
-    }
+    },
 
-    navigateTo(where='', trigger=true, replace=false, params) {
+    navigateTo: function(where='', trigger=true, replace=false, params) {
 
         this.params = params;
 
@@ -60,14 +62,14 @@ class Router extends Backbone.Router {
 
         this.navigate(where, { trigger: true, replace: replace });
 
-    }
+    },
 
-    __NAMESPACE__() {
+    __NAMESPACE__: function() {
 
         return window.__NAMESPACE__;
 
     }
 
-}
+}, staticProps);
 
 export default Router;
