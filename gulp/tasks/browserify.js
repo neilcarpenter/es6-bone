@@ -6,26 +6,26 @@
    of browserify for faster bundling using caching.
 */
 
-var gulp         = require('gulp');
-var browserify   = require('browserify');
-var watchify     = require('watchify');
-var babelify = require('babelify');
-var uglify       = require('gulp-uglify');
-var source       = require('vinyl-source-stream');
-var buffer       = require('vinyl-buffer');
-var gutil        = require('gulp-util');
-var stripDebug   = require('gulp-strip-debug');
-var bundleLogger = require('../util/bundleLogger');
-var handleErrors = require('../util/handleErrors');
-var pkg          = require('../../package.json');
+import gulp from 'gulp';
+import browserify from 'browserify';
+import watchify from 'watchify';
+import babelify from 'babelify';
+import uglify from 'gulp-uglify';
+import source from 'vinyl-source-stream';
+import buffer from 'vinyl-buffer';
+import gutil from 'gulp-util';
+import stripDebug from 'gulp-strip-debug';
+import bundleLogger from '../util/bundleLogger';
+import handleErrors from '../util/handleErrors';
+import pkg from '../../package.json';
 
-gulp.task('browserify', function() {
+gulp.task('browserify', () => {
 
-  var bundler = browserify({
+  let bundler = browserify({
     // Required watchify args
     cache: {}, packageCache: {}, fullPaths: false,
     // Browserify Options
-    entries: ['./'+pkg.folders.src+'/js/Source.js'],
+    entries: [`./${pkg.folders.src}/js/Source.js`],
     // Enable source maps!
     debug: global.isWatching
   });
@@ -34,7 +34,7 @@ gulp.task('browserify', function() {
     optional: ["es7.classProperties"]
   }));
 
-  var bundle = function() {
+  const bundle = () => {
 
     // Log when bundling starts
     bundleLogger.start();
@@ -55,7 +55,7 @@ gulp.task('browserify', function() {
 			.pipe(global.isWatching ? gutil.noop() : uglify())
 
       // Specify the output destination
-      .pipe(gulp.dest('./'+pkg.folders.dest+'/js/'))
+      .pipe(gulp.dest(`./${pkg.folders.dest}/js/`))
 
       // Log when bundling completes!
       .on('end', bundleLogger.end);

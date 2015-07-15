@@ -1,14 +1,14 @@
-var gulp   = require('gulp');
-var rename = require('gulp-rename');
-var rimraf = require('gulp-rimraf');
-var filter = require('gulp-filter');
-var pkg    = require('../../package.json');
+import gulp from 'gulp';
+import rename from 'gulp-rename';
+import rimraf from 'gulp-rimraf';
+import filter from 'gulp-filter';
+import pkg from '../../package.json';
 
-var exts    = ['css', 'js'];
-var re      = new RegExp('(-[a-z0-9]{8})(.('+exts.join('|')+'))$', 'i');
+const exts = ['css', 'js'];
+const re   = new RegExp('(-[a-z0-9]{8})(.('+exts.join('|')+'))$', 'i');
 
-var src     = pkg.folders.dest+'/**/*.{'+exts.join(',')+'}';
-var dest    = pkg.folders.dest;
+const src  = pkg.folders.dest+'/**/*.{'+exts.join(',')+'}';
+const dest = pkg.folders.dest;
 
 function removeHash(path) {
 
@@ -18,7 +18,7 @@ function removeHash(path) {
 
 }
 
-gulp.task('_cleanFilenames', function () {
+gulp.task('_cleanFilenames', () => {
 
     return gulp.src(src)
         .pipe(rename(removeHash))
@@ -26,9 +26,9 @@ gulp.task('_cleanFilenames', function () {
 
 });
 
-gulp.task('unrevAssets', ['_cleanFilenames'], function () {
+gulp.task('unrevAssets', ['_cleanFilenames'], () => {
 
-    var hashedFilter = filter(function (file) { return re.test(file.path); });
+    var hashedFilter = filter((file) => { return re.test(file.path); });
 
     return gulp.src(src)
         .pipe(hashedFilter)

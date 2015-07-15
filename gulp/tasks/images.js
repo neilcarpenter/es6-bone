@@ -1,13 +1,13 @@
-var changed  = require('gulp-changed');
-var gulp     = require('gulp');
-var imagemin = require('gulp-imagemin');
-var pngcrush = require('imagemin-pngcrush');
-var pkg      = require('../../package.json')
+import changed from 'gulp-changed';
+import gulp from 'gulp';
+import imagemin from 'gulp-imagemin';
+import pngcrush from 'imagemin-pngcrush';
+import pkg from '../../package.json';
 
-gulp.task('images', function() {
-  var dest = pkg.folders.dest+'/static/img';
+gulp.task('images', () => {
+  const dest = `${pkg.folders.dest}/static/img`;
 
-  return gulp.src(pkg.folders.src+'/img/**')
+  return gulp.src(`${pkg.folders.src}/img/**`)
     .pipe(changed(dest))
     .pipe(imagemin({
         use: [pngcrush()]

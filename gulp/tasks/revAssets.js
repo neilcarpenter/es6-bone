@@ -1,16 +1,16 @@
-var gulp   = require('gulp');
-var rimraf = require('gulp-rimraf');
-var filter = require('gulp-filter');
-var rev    = require('gulp-rev');
-var pkg    = require('../../package.json');
+import gulp from 'gulp';
+import rimraf from 'gulp-rimraf';
+import filter from 'gulp-filter';
+import rev from 'gulp-rev';
+import pkg from '../../package.json';
 
-var exts    = ['css', 'js'];
-var re      = new RegExp('(-[a-z0-9]{8})(.('+exts.join('|')+'))$', 'i');
+const exts = ['css', 'js'];
+const re   = new RegExp('(-[a-z0-9]{8})(.('+exts.join('|')+'))$', 'i');
 
-var src     = pkg.folders.dest+'/**/*.{'+exts.join(',')+'}';
-var dest    = pkg.folders.dest;
+const src  = pkg.folders.dest+'/**/*.{'+exts.join(',')+'}';
+const dest = pkg.folders.dest;
 
-gulp.task('_versionCleanAssets', function () {
+gulp.task('_versionCleanAssets', () => {
 
     return gulp.src(src)
         .pipe(rev())
@@ -20,9 +20,9 @@ gulp.task('_versionCleanAssets', function () {
 
 });
 
-gulp.task('revAssets', ['_versionCleanAssets'], function () {
+gulp.task('revAssets', ['_versionCleanAssets'], () => {
 
-    var unHashedFilter = filter(function (file) { return !re.test(file.path); });
+    const unHashedFilter = filter((file) => { return !re.test(file.path); });
 
     return gulp.src(src)
         .pipe(unHashedFilter)

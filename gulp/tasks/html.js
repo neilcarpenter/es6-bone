@@ -1,14 +1,13 @@
-var gulp         = require('gulp');
-var gutil        = require('gulp-util');
-var replace      = require('gulp-replace');
-var minifyHTML   = require('gulp-minify-html');
-var minifyInline = require('gulp-minify-inline');
-var gutil        = require('gulp-util');
-var pkg          = require('../../package.json');
+import gulp from 'gulp';
+import gutil from 'gulp-util';
+import replace from 'gulp-replace';
+import minifyHTML from 'gulp-minify-html';
+import minifyInline from 'gulp-minify-inline';
+import pkg from '../../package.json';
 
-gulp.task('html', function () {
+gulp.task('html', () => {
 
-	var manifest = {};
+	let manifest = {};
 
 	// use versioned assets if going to production, otherwise use default paths
 	if (!global.isWatching) {
@@ -19,9 +18,9 @@ gulp.task('html', function () {
 		}
 	}
 
-	return gulp.src(pkg.folders.src+'/html/*.html')
-		.pipe(replace(/\{{ ([^{}]*) \}}/g, function(a, b) {
-			var r = manifest[b];
+	return gulp.src(`${pkg.folders.src}/html/*.html`)
+		.pipe(replace(/\{{ ([^{}]*) \}}/g, (a, b) => {
+			const r = manifest[b];
 			return r && (typeof r === 'string' || typeof r === 'number') ? r : b;
 		}))
 		.pipe(global.isWatching ? gutil.noop() : minifyInline())

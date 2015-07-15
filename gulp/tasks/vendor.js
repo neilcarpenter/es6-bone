@@ -1,19 +1,19 @@
-var gulp   = require('gulp');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var gutil  = require('gulp-util');
-var pkg    = require('../../package.json');
+import gulp from 'gulp';
+import concat from 'gulp-concat';
+import uglify from 'gulp-uglify';
+import gutil from 'gulp-util';
+import pkg from '../../package.json';
 
-gulp.task('vendor', function() {
+gulp.task('vendor', () => {
 
-	var source = [];
-	for (var key in pkg.vendor) {
+	const source = [];
+	for (let key in pkg.vendor) {
 		source.push(pkg.folders.vendor +"/"+ pkg.vendor[key]);
 	}
 
 	return gulp.src(source)
 		.pipe(concat('v.js'))
 		.pipe(global.isWatching ? gutil.noop() : uglify())
-		.pipe(gulp.dest(pkg.folders.dest+'/js/vendor/'));
+		.pipe(gulp.dest(`${pkg.folders.dest}/js/vendor/`));
 		
 });

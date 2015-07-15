@@ -1,9 +1,9 @@
-var gulp        = require('gulp');
-var runSequence = require('run-sequence');
+import gulp from 'gulp';
+import runSequence from 'run-sequence';
 
-gulp.task('build', function() {
+gulp.task('build', () => {
 
-    var args = [
+    const args = [
         'unrevAssets',
         ['browserify', 'sass', 'vendor', 'images', 'dataMin'],
         'html',

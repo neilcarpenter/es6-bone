@@ -1,18 +1,18 @@
-var browserSync = require('browser-sync').create();
-var gulp        = require('gulp');
-var fs          = require('fs');
-var pkg         = require('../../package.json');
+import browserSync from 'browser-sync';
+import gulp from 'gulp';
+import fs from 'fs';
+import pkg from '../../package.json';
 
-gulp.task('browserSync', ['build'], function() {
-  browserSync.init({
+gulp.task('browserSync', ['build'], () => {
+  browserSync.create().init({
     server: {
       baseDir: [pkg.folders.src, pkg.folders.dest],
-      middleware: function (req, res, next) {
+      middleware: (req, res, next) => {
 
-        var filePath = req.url.split("?");
+        const filePath = req.url.split("?");
 
         // static route for pushstate
-        var exists = fs.existsSync(process.cwd() + "/" + pkg.folders.dest + filePath[0]);
+        const exists = fs.existsSync(process.cwd() + "/" + pkg.folders.dest + filePath[0]);
         if((req.url == "/" || !exists) && req.url.indexOf("browser-sync-client") == -1) req.url = "/index.html";
 
         if(filePath.length > 1) req.url += filePath[1];
