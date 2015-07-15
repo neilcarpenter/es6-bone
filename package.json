@@ -1,19 +1,19 @@
 {
-  "name": "coffeebone",
-  "description": "Boilerplate for single-page applications using CoffeeScript, Backbone, SASS and Gulp + Browserify.",
-  "version": "1.5.4",
-  "homepage": "https://github.com/unit9/coffee-bone",
+  "name": "es6-bone",
+  "description": "Boilerplate for single-page applications using ES6, Backbone, SASS and Gulp + Browserify.",
+  "version": "0.0.1",
+  "homepage": "https://github.com/neilcarpenter/es6-bone",
   "author": {
-    "name": "UNIT9 <developers@unit9.com> (http://www.unit9.com/)"
+    "name": "Neil Carpenter <neilanthonycarpenter@gmail.com> (http://neilcarpenter.com/)"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/unit9/coffee-bone.git"
+    "url": "git://github.com/neilcarpenter/es6-bone.git"
   },
   "bugs": {
-    "url": "https://github.com/unit9/coffee-bone/issues"
+    "url": "https://github.com/neilcarpenter/es6-bone/issues"
   },
-  "license": "BSD",
+  "license": "MIT",
   "engines": {
     "node": ">= 0.10.32"
   },
@@ -27,8 +27,6 @@
     "babelify": "^6.1.2",
     "browser-sync": "~2.7.1",
     "browserify": "~6.0.3",
-    "coffee-script": "1.8.0",
-    "coffeeify": "~0.7.0",
     "gulp": "^3.8.8",
     "gulp-autoprefixer": "~1.0.1",
     "gulp-changed": "^1.0.0",
@@ -56,7 +54,9 @@
     "run-sequence": "^1.0.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "~1.0.0",
-    "watchify": "~2.0.0"
+    "watchify": "~2.0.0",
+    "ncp": "^1.0.1",
+    "walk": "^2.3.4"
   },
   "vendor": {
     "modernizr": "modernizr-dev.js",
@@ -69,9 +69,5 @@
     "css-plugin": "CSSPlugin.js",
     "easepack": "EasePack.js",
     "script": "script.js"
-  },
-  "dependencies": {
-    "ncp": "^1.0.1",
-    "walk": "^2.3.4"
   }
 }

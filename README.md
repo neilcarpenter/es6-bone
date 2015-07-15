@@ -17,7 +17,7 @@ Also note, ES7 `classProperties` are currently enabled through babel, but this i
 1. Clone repo into `[DIR NAME]`
 2. `$ cd [DIR NAME]`
 3. `$ [sudo] npm install`
-4. `$ node install.js [APP NAMESPACE]` *optional - just namespaces app in all coffee files*
+4. `$ node install.js [APP NAMESPACE]` *optional - just namespaces app in all js files*
 5. `$ gulp`
 
 ### Gulp tasks
@@ -29,7 +29,7 @@ Also note, ES7 `classProperties` are currently enabled through babel, but this i
     * Minify XML templates
     * Optimise images
     * BrowserSync (local server)
-    * + watch for changes in `.coffee`, `.scss`, `templates.xml` and images, trigger repeat
+    * + watch for changes in `.js`, `.scss`, `templates.xml` and images, trigger repeat
 
 * `$ gulp build` - *pre-deploy build*
     * Browserify
