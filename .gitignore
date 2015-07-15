@@ -4,3 +4,7 @@ npm-debug.log
 
 # OSX 
 *.DS_Store
+
+website/css
+website/data
+website/js
