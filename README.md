@@ -1,23 +1,22 @@
-# Coffee-bone
+# es6-bone
 
-Boilerplate for single page app built on CoffeeScript, Backbone, Sass, Gulp, Browserify, amongst other things...
+JS (ES6) port of [coffee-bone](https://github.com/unit9/coffee-bone).
+
+Boilerplate for single page app built on ES6, Backbone, Sass, Gulp, Browserify, amongst other things...
 
 Although it technically works "out of the box" (*-ish*), really requires some configuration, and probably contains a lot of extra crap you don't need.
 
-### Install using NPM
+### ES6+ notes
 
-1. `$ cd [YOUR PROJECT FOLDER]`
-2. `$ npm install coffeebone`
-3. `$ node node_modules/coffeebone/clean.js`
-4. `$ node install.js [APP NAMESPACE]` *optional - just namespaces app in all coffee files*
-4. `$ npm install`
-6. `$ gulp`
+There is currently no easy way to integrate Backbone with ES6 classes, [see GH issue here](https://github.com/jashkenas/backbone/issues/3560). In light of this, Backbone-derived modules are written using the Backbone `extend` syntax, rather than ES6 class syntax.
+
+Also note, ES7 `classProperties` are currently enabled through babel, but this is an [experimental feature](http://babeljs.io/blog/2015/03/31/5.0.0/) based on a proposed spec, so it is subject to change. Class properties are only used within a few modules at the moment so removing them wouldn't be a huge issue if it came to that.
 
 ### Install
 
 1. Clone repo into `[DIR NAME]`
 2. `$ cd [DIR NAME]`
-3. `$ npm install`
+3. `$ [sudo] npm install`
 4. `$ node install.js [APP NAMESPACE]` *optional - just namespaces app in all coffee files*
 5. `$ gulp`
 
@@ -50,32 +49,32 @@ Although it technically works "out of the box" (*-ish*), really requires some co
 
 ### General FE app structure notes
 
-* `Router.coffee` - capture / modify URL hashChange events
-* `Nav.coffee` - list all available site routes, handle / delegate URL hashChange events
-* `AppView.coffee` - Core view, all UI bound here. Anything with a deeplink in `Wrapper`, any modal-only content in `ModalManager`
-* `Wrapper.coffee`
+* `Router.js` - capture / modify URL hashChange events
+* `Nav.js` - list all available site routes, handle / delegate URL hashChange events
+* `AppView.js` - Core view, all UI bound here. Anything with a deeplink in `Wrapper`, any modal-only content in `ModalManager`
+* `Wrapper.js`
     * mapping for all site deeplinked views
     * each view may be an `AbstractViewPage` or `AbstractViewModal`
     * handle management of deeplinked pages / modals based on view 'type' and history state
     * trigger sub-route event changing
 * `AbstractViewPage` / `AbstractViewModal` - URL based pages, built in methods for page transitions
-* `_ModalManager.coffee` - custom modal management (non URL-based popups)
+* `_ModalManager.js` - custom modal management (non URL-based popups)
 
 ### Important FE utils / data management
 
-* `API.coffee` - use to retrieve all endpoints
-* `UserData.coffee` - holds all user data, convenience methods to integrate with assumed user API endpoints (login / logout etc)
-* `Templates.coffee` - all application HTML is loaded via single XML file, this templates wrapper allows getter based on ID
-* `Locale.coffee` - all localised copy is expected in JSON file format, based on predefined (or detected) ISO-compatible locale code. This class offers wrapper to get localised string based on unique ID.
-* `Analytics.coffee` - Google Analytics custom event firing, requires custom JSON containing ID / event string mappings.
-* `Share.coffee` - Wrapper for sharing to various social networks in popup windows (except FB, this should be done via `Facebook.coffee` class)
+* `API.js` - use to retrieve all endpoints
+* `UserData.js` - holds all user data, convenience methods to integrate with assumed user API endpoints (login / logout etc)
+* `Templates.js` - all application HTML is loaded via single XML file, this templates wrapper allows getter based on ID
+* `Locale.js` - all localised copy is expected in JSON file format, based on predefined (or detected) ISO-compatible locale code. This class offers wrapper to get localised string based on unique ID.
+* `Analytics.js` - Google Analytics custom event firing, requires custom JSON containing ID / event string mappings.
+* `Share.js` - Wrapper for sharing to various social networks in popup windows (except FB, this should be done via `Facebook.js` class)
 * Others - just look around :)
 
 ### Included SDKs
 
 These come packaged in wrapper classes that load the SDKs asynchronously and have some helper methods for API interaction
-* Facebook (`Facebook.coffee`)
-* Google+ (`GooglePlus.coffee`)
+* Facebook (`Facebook.js`)
+* Google+ (`GooglePlus.js`)
 
 ### Included JS libs
 
