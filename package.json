@@ -18,8 +18,8 @@
     "node": ">= 0.10.32"
   },
   "folders": {
-    "dest": "website",
-    "src": "project",
+    "dest": "dist",
+    "src": "src",
     "vendor": "project/vendor"
   },
   "devDependencies": {
