@@ -1,7 +1,8 @@
-var fs     = require('fs'),
-    walk   = require('walk');
+var fs   = require('fs');
+var walk = require('walk');
+var pkg  = require('./package.json');
 
-var walker = walk.walk('./project', { followLinks: false, filters: [] }),
+var walker = walk.walk('./'+pkg.folders.src, { followLinks: false, filters: [] }),
     files  = 0,
     refs   = 0,
     name   = process.argv[2];
@@ -23,7 +24,7 @@ function parseFile(file) {
             if (err) return console.log(err);
         });
 
-    }); 
+    });
 
 }
 
