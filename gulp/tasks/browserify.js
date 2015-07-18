@@ -21,6 +21,10 @@ import pkg from '../../package.json';
 
 gulp.task('browserify', () => {
 
+  let bundleCount  = 0;
+  let shouldReload = false;
+  let browserSync;
+
   let bundler = browserify({
     // Required watchify args
     cache: {}, packageCache: {}, fullPaths: false,
@@ -35,6 +39,12 @@ gulp.task('browserify', () => {
   }));
 
   const bundle = () => {
+
+    if (bundleCount > 0) {
+      browserSync = require('browser-sync').get('herro server');
+      shouldReload = true;
+    }
+    bundleCount++;
 
     // Log when bundling starts
     bundleLogger.start();
@@ -58,7 +68,12 @@ gulp.task('browserify', () => {
       .pipe(gulp.dest(`./${pkg.folders.dest}/js/`))
 
       // Log when bundling completes!
-      .on('end', bundleLogger.end);
+      .on('end', function() {
+        bundleLogger.end();
+        if (shouldReload) {
+          browserSync.reload();
+        }
+      });
   };
 
   if(global.isWatching) {

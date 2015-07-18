@@ -4,7 +4,7 @@ import fs from 'fs';
 import pkg from '../../package.json';
 
 gulp.task('browserSync', ['build'], () => {
-  browserSync.create().init({
+  browserSync.create('herro server').init({
     server: {
       baseDir: [pkg.folders.src, pkg.folders.dest],
       middleware: (req, res, next) => {
