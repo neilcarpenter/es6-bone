@@ -8,13 +8,15 @@ class Templates {
 
     constructor(templates, callback) {
 
+        console.log(templates, callback);
+
         this.cb = callback;
 
         $.ajax({
             url     : templates,
             success : this.parseXML.bind(this)
         });
-           
+
     }
 
     parseXML(data) {
@@ -34,14 +36,14 @@ class Templates {
         this.templates = new TemplatesCollection(temp);
 
         this.cb();
-        
+
     }
 
     get(id) {
 
         let t = this.templates.where({id : id});
         t     = t[0].get('text');
-        
+
         return $.trim(t);
 
     }

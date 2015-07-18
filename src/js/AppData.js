@@ -6,7 +6,7 @@ class AppData extends AbstractData {
 
     callback = null;
 
-    constructor(callback) {
+    constructor(remoteDep=null, callback) {
 
         super();
 
@@ -24,7 +24,7 @@ class AppData extends AbstractData {
 
     // get app bootstrap data - embed in HTML or API endpoint
     getStartData() {
-        
+
         if (API.get('start')) {
 
             const r = Requester.request({

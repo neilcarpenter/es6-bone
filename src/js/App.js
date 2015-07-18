@@ -13,16 +13,13 @@ import MediaQueries from './utils/MediaQueries';
 
 class App {
 
-    static _toClean = ['objReady', 'setFlags', 'objectComplete', 'init', 'initObjects', 'initSDKs', 'initApp', 'go', 'cleanup'];
+    static _toClean = ['depedencyDfds', 'setFlags', 'objectComplete', 'init', 'initObjects', 'initObject','initSDKs', 'initApp', 'go', 'cleanup'];
 
-    LIVE       = null;
-    BASE_PATH  = window.config.hostname;
-    localeCode = window.config.localeCode;
-    objReady   = 0;
+    BASE_PATH     = window.config.hostname;
+    localeCode    = window.config.localeCode;
+    depedencyDfds = [];
 
-    constructor(LIVE) {
-        this.LIVE = LIVE;
-    }
+    constructor() {}
 
     setFlags() {
         const ua = window.navigator.userAgent.toLowerCase();
@@ -34,12 +31,8 @@ class App {
         this.IS_CHROME_IOS = ua.match('crios') ? true : false; // http://stackoverflow.com/a/13808053
     }
 
-    objectComplete() {
-        this.objReady++;
-
-        if (this.objReady >= 4) {
-            this.initApp();
-        }
+    depedencyLoaded(dfd) {
+        dfd.resolve();
     }
 
     init() {
@@ -47,25 +40,29 @@ class App {
     }
 
     initObjects() {
-        this.templates = new Templates("/data/templates.xml", this.objectComplete.bind(this));
-        this.locale    = new Locale("/data/locales/strings.json", this.objectComplete.bind(this));
-        this.analytics = new Analytics("/data/tracking.json", this.objectComplete.bind(this));
-        this.appData   = new AppData(this.objectComplete.bind(this));
+        this.initObject('templates', Templates, "/data/templates.xml");
+        this.initObject('locale', Locale, "/data/locales/strings.json");
+        this.initObject('analytics', Analytics, "/data/tracking.json");
+        this.initObject('appData', AppData);
 
-        // if new objects are added don't forget to change the `this.objectComplete` function
+        $.when.apply($, this.depedencyDfds).done(this.initApp.bind(this));
+    }
+
+    initObject(classProp, ClassRef, remoteDep=null) {
+        const dfd = $.Deferred();
+        this.depedencyDfds.push(dfd);
+
+        this[classProp] = new ClassRef(remoteDep, this.depedencyLoaded.bind(this, dfd));
     }
 
     initSDKs() {
-
         Facebook.load();
         GooglePlus.load();
-
     }
 
     initApp() {
         this.setFlags();
 
-        /* Starts application */
         this.appView = new AppView();
         this.router  = new Router();
         this.nav     = new Nav();
@@ -78,10 +75,10 @@ class App {
     }
 
     go() {
-        /* After everything is loaded, kicks off website */
+        // After everything is loaded, kicks off website
         this.appView.render();
 
-        /* remove redundant initialisation methods / properties */
+        // remove redundant initialisation methods / properties
         this.cleanup();
     }
 
