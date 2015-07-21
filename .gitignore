@@ -2,9 +2,9 @@
 .sass-cache/
 npm-debug.log
 
-# OSX 
+# OSX
 *.DS_Store
 
-website/css
-website/data
-website/js
+dist/css
+dist/data
+dist/js
