@@ -5,12 +5,14 @@ gulp.task('build', () => {
 
     const args = [
         'unrevAssets',
-        ['browserify', 'sass', 'vendor', 'images', 'dataMin'],
-        'html',
+        [ 'browserify', 'scss', 'vendor', 'images', 'dataMin', 'fonts' ],
+        'html'
     ];
 
     if (!global.isWatching) {
+
         args.splice(2, 0, 'revAssets');
+
     }
 
     runSequence.apply(this, args);

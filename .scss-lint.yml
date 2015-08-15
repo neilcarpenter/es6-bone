@@ -1,0 +1,245 @@
+--- # https://github.com/causes/scss-lint/blob/master/lib/scss_lint/linter/README.md
+
+scss_files: 'src/**/*.scss'
+
+exclude:
+  - 'src/scss/utils/*.scss'
+  - 'src/scss/vendor/*.scss'
+
+linters:
+  BangFormat:
+    severity: error
+    enabled: true
+    space_before_bang: true
+    space_after_bang: false
+
+  BorderZero:
+    severity: error
+    enabled: true
+    convention: zero # or `none`
+
+  ColorKeyword:
+    severity: error
+    enabled: true
+
+  ColorVariable:
+    severity: error
+    enabled: false
+
+  Comment:
+    severity: error
+    enabled: true
+
+  DebugStatement:
+    severity: error
+    enabled: true
+
+  DeclarationOrder:
+    severity: error
+    enabled: true
+
+  DuplicateProperty:
+    severity: error
+    enabled: true
+
+  ElsePlacement:
+    severity: error
+    enabled: true
+    style: same_line # or 'new_line'
+
+  EmptyLineBetweenBlocks:
+    severity: error
+    enabled: true
+    ignore_single_line_blocks: true
+
+  EmptyRule:
+    enabled: true
+
+  FinalNewline:
+    severity: error
+    enabled: true
+    present: true
+
+  HexLength:
+    severity: error
+    enabled: true
+    style: short # or 'long'
+
+  HexNotation:
+    severity: error
+    enabled: true
+    style: lowercase # or 'uppercase'
+
+  HexValidation:
+    severity: error
+    enabled: true
+
+  IdSelector:
+    severity: warning
+    enabled: true
+
+  ImportantRule:
+    severity: error
+    enabled: true # We don't hate !important, explicit overrides expected as it should be used carefully
+
+  ImportPath:
+    severity: error
+    enabled: true
+    leading_underscore: false
+    filename_extension: false
+
+  Indentation:
+    severity: error
+    enabled: true
+    allow_non_nested_indentation: false
+    character: space # or 'tab'
+    width: 4
+
+  LeadingZero:
+    severity: error
+    enabled: true
+    style: include_zero # or 'exclude_zero'
+
+  MergeableSelector:
+    severity: error
+    enabled: true
+    force_nesting: true
+
+  NameFormat:
+    severity: error
+    enabled: true
+    allow_leading_underscore: true
+    convention: hyphenated_lowercase # or 'hyphenated_lowercase', or a regex pattern
+
+  NestingDepth:
+    severity: warning # subjective
+    enabled: true
+    max_depth: 4
+
+  PlaceholderInExtend:
+    severity: error
+    enabled: true
+
+  PropertyCount:
+    severity: warning # subjective
+    enabled: false
+    include_nested: false
+    max_properties: 14 # JAE I feel like there are times when it's definitely necessary to have lots of rules.
+
+  PropertySortOrder:
+    severity: error
+    enabled: true # fun fact - alphabetical sorting of CSS rules can improve gzip performance
+    ignore_unspecified: false
+    separate_groups: false
+
+  PropertySpelling:
+    severity: error
+    enabled: true
+    extra_properties: [] # -
+
+  QualifyingElement:
+    severity: error
+    enabled: true
+    allow_element_with_attribute: true
+    allow_element_with_class: false
+    allow_element_with_id: false
+
+  SelectorDepth:
+    severity: warning #subjective
+    enabled: true
+    max_depth: 5 #
+
+  SelectorFormat:
+    severity: error
+    enabled: true
+    convention: hyphenated_lowercase # or 'BEM', or 'hyphenated_lowercase', or 'snake_case', or 'camel_case', or a regex pattern
+
+  Shorthand:
+    severity: error
+    enabled: true
+
+  SingleLinePerProperty:
+    severity: error
+    enabled: true
+    allow_single_line_rule_sets: true
+
+  SingleLinePerSelector:
+    severity: error
+    enabled: true
+
+  SpaceAfterComma:
+    severity: error
+    enabled: true
+
+  SpaceAfterPropertyColon:
+    severity: error
+    enabled: true
+    style: one_space # or 'no_space', or 'at_least_one_space', or 'aligned'
+
+  SpaceAfterPropertyName:
+    severity: error
+    enabled: true
+
+  SpaceBeforeBrace:
+    severity: error
+    enabled: true
+    style: space # or 'new_line'
+    allow_single_line_padding: true
+
+  SpaceBetweenParens:
+    severity: error
+    enabled: true
+    spaces: 0
+
+  StringQuotes:
+    severity: error
+    enabled: true
+    style: single_quotes # or double_quotes
+
+  TrailingSemicolon:
+    severity: error
+    enabled: true
+
+  TrailingZero:
+    severity: error
+    enabled: false
+
+  UnnecessaryMantissa:
+    severity: error
+    enabled: true
+
+  UnnecessaryParentReference:
+    severity: error
+    enabled: true
+
+  UrlFormat:
+    severity: error
+    enabled: true
+
+  UrlQuotes:
+    severity: error
+    enabled: true
+
+  VariableForProperty:
+    severity: error
+    enabled: false
+    properties:
+        - color
+        - font
+        - font-family
+        - font-size
+
+  VendorPrefixes: # applied via a gulp task instead: https://www.npmjs.com/package/gulp-autoprefixer
+    severity: warning
+    enabled: true
+    identifier_list: base
+    # include: []
+    # exclude: []
+
+  ZeroUnit:
+    severity: error
+    enabled: true
+
+  Compass::*:
+    severity: error
+    enabled: false
