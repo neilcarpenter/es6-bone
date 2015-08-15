@@ -5,6 +5,6 @@ npm-debug.log
 # OSX
 *.DS_Store
 
-dist/css
-dist/data
-dist/js
+dist/
+
+rev-manifest.json
