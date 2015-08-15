@@ -8,7 +8,7 @@ import gulp from 'gulp';
 import pkg from '../../package.json';
 
 gulp.task('watch', ['setWatch', 'browserSync'], () => {
-  gulp.watch(`${pkg.folders.src}/sass/**`, ['sass']);
+  gulp.watch(`${pkg.folders.src}/scss/**`, ['scss']);
   gulp.watch(`${pkg.folders.src}/img/**`, ['images']);
   gulp.watch(`${pkg.folders.src}/data/**`, ['dataMin']);
   gulp.watch(`${pkg.folders.src}/vendor/**`, ['vendor']);
